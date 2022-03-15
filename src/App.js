@@ -1,24 +1,46 @@
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    class App extends Component {
+      state= {
+          Razaslista: null,
+          RazaSelecionada: null,
+          error: false
+      }
+     componentrazas() {
+         this.fetchTotalRazas();
+     }
+     fetchAllBreeds = async () => {
+         try {
+          const response = await fetch('https://dog.ceo/api/breeds/list/all');
+          if (response.ok) {
+              const data = await response.json();
+              this.setState({
+                Razaslista: Object.keys(data.message)
+              })
+          } else {
+              this.setState({
+                  error: true
+              })
+              alert('Oh! lo sentimos no podemos desplegar los datos')
+          }
+          } catch (e) {
+              this.setState ({
+                  error: true
+              })
+              alert('Oh! lo sentimos no podemos desplegar los datos')
+          }
+         }
+         selectHandler = (breed) => {
+             this.setState({
+                RazaSelecionada: breed
+             })
+         }
+      
+  }
+  
   );
 }
 
